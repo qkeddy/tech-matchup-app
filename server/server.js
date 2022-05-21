@@ -16,7 +16,7 @@ const server = new ApolloServer({
     resolvers,
 });
 
-// TODO what does `false` indicate here? 
+// TODO Question - what does `false` indicate here? 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -32,6 +32,7 @@ app.get("/", (req, res) => {
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async (typeDefs, resolvers) => {
   await server.start();
+  // Wrap the express app with middleware
   server.applyMiddleware({ app });
   
   db.once('open', () => {
