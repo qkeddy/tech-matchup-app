@@ -3,11 +3,11 @@ const { Tech, Matchup } = require("../models");
 const resolvers = {
     Query: {
         tech: async () => {
-            return Tech.find({});
+            return await Tech.find({});
         },
         matchups: async (parent, { _id }) => {
             const params = _id ? { _id } : {};
-            return Matchup.find(params);
+            return await Matchup.find(params);
         },
     },
 
@@ -17,11 +17,15 @@ const resolvers = {
             return matchup;
         },
         // `techNum` is passed in as an arg
+        // createVote: async (parent, { _id, techNum }) => {
+        //     const vote = await Matchup.findOneAndUpdate(
+        //         { _id },
+        //         { $inc: { [`tech${techNum}_votes`]: 1 } },
+        //         { new: true });
+        //     return vote;
+        // },
         createVote: async (parent, { _id, techNum }) => {
-            const vote = await Matchup.findOneAndUpdate(
-                { _id },
-                { $inc: { [`tech${techNum}_votes`]: 1 } },
-                { new: true });
+            const vote = await Matchup.findOneAndUpdate({ _id }, { $inc: { [`tech${techNum}_votes`]: 1 } }, { new: true });
             return vote;
         },
     },
